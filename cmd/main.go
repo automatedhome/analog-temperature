@@ -28,7 +28,7 @@ func onMessage(client mqtt.Client, message mqtt.Message) {
 	}
 
 	temperature := calculate(voltage)
-	client.Publish(publishTopic, 0, false, fmt.Sprintf("%f", temperature))
+	client.Publish(publishTopic, 0, false, fmt.Sprintf("%.2f", temperature))
 }
 
 func calculate(voltage float64) float64 {
