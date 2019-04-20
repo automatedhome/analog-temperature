@@ -45,8 +45,8 @@ func main() {
 	flag.Parse()
 
 	settings.Vref = 12.0
-	settings.Tmin = 0
-	settings.Tmax = 200
+	settings.Tmin = 0   // input is at 0V (minimum)
+	settings.Tmax = 200 // input is at 10V (hardware allowed maximum)
 	publishTopic = *outTopic
 	brokerURL, err := url.Parse(*broker)
 	if err != nil {
