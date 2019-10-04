@@ -28,7 +28,9 @@ func onMessage(client mqtt.Client, message mqtt.Message) {
 	}
 
 	temperature := calculate(voltage)
-	client.Publish(publishTopic, 0, false, fmt.Sprintf("%.2f", temperature))
+	if err := mqttclient.Publish(client, publishTopic, 0, false, fmt.Sprintf("%.2f", temperature)); err != nil {
+		log.Fatalln("MQTT message couldn't be sent. Exiting.")
+	}
 }
 
 func calculate(voltage float64) float64 {
