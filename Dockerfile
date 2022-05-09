@@ -1,12 +1,11 @@
-FROM arm32v7/golang:stretch
-
-COPY qemu-arm-static /usr/bin/
+FROM golang:1.18 as builder
+ 
 WORKDIR /go/src/github.com/automatedhome/analog-temperature
 COPY . .
-RUN make build
+RUN CGO_ENABLED=0 go build -o analog-temperature cmd/main.go
 
-FROM arm32v7/busybox:1.30-glibc
+FROM busybox:glibc
 
-COPY --from=0 /go/src/github.com/automatedhome/analog-temperature/analog-temperature /usr/bin/analog-temperature
+COPY --from=builder /go/src/github.com/automatedhome/analog-temperature/analog-temperature /usr/bin/analog-temperature
 
 ENTRYPOINT [ "/usr/bin/analog-temperature" ]
